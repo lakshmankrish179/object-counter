@@ -1,0 +1,18 @@
+replicas: 1
+
+image:
+  repository: your-dockerhub-username/object-counter
+  tag: v1.0
+  pullPolicy: IfNotPresent
+
+service:
+  type: ClusterIP
+  port: 5000
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 256Mi
