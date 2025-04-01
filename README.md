@@ -42,7 +42,7 @@ docker run \
     --name=tfserving \
     -p 8500:8500 \
     -p 8501:8501 \
-    -v "$(pwd)\tmp\model:/models" \
+    -v "tmp/models:/models" \
     -e OMP_NUM_THREADS=$num_physical_cores \
     -e TENSORFLOW_INTER_OP_PARALLELISM=2 \
     -e TENSORFLOW_INTRA_OP_PARALLELISM=$num_physical_cores \
@@ -63,15 +63,7 @@ docker run `
     -e TENSORFLOW_INTER_OP_PARALLELISM=2 `
     -e TENSORFLOW_INTRA_OP_PARALLELISM=$num_physical_cores `
     intel/intel-optimized-tensorflow-serving:2.8.0 `
-    --model_config_file=/models/model_config.config
-```
-
-
-## Run mongo 
-
-```bash
-docker rm -f test-mongo
-docker run --name test-mongo --rm -p 27017:27017 -d mongo:latest
+    --model_config_file=/model/model_config.config
 ```
 
 
@@ -105,9 +97,9 @@ python -m counter.entrypoints.webapp
 ## Call the service
 
 ```shell script
- curl -F "threshold=0.9" -F "file=@resources/images/boy.jpg" http://0.0.0.0:5000/object-count
- curl -F "threshold=0.9" -F "file=@resources/images/cat.jpg" http://0.0.0.0:5000/object-count
- curl -F "threshold=0.9" -F "file=@resources/images/food.jpg" http://0.0.0.0:5000/object-count 
+ curl -F "threshold=0.9" -F "file=@resources/images/boy.jpg" http://0.0.0.0:5000/predict-object
+ curl -F "threshold=0.9" -F "file=@resources/images/cat.jpg" http://0.0.0.0:5000/predict-object
+ curl -F "threshold=0.9" -F "file=@resources/images/food.jpg" http://0.0.0.0:5000/predict-object
 ```
 
 ## Run the tests
@@ -135,7 +127,7 @@ kubectl create secret generic postgres-secret \
 
 2. Deploy your Helm Chart
 
-helm install object-counter ./charts/object-counter
+helm install object-counter ./charts
 
 3. Verify deployment
 
